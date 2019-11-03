@@ -27,4 +27,4 @@ The MERL Shopping Dataset contains 106 videos, each of which is a sequence ~2 mi
 ## Contributors
 1. [Rushabh Dharia](github.com/rushabhdharia)
 2. Devanshi Mittal
-3. Animesh Sagar
+3. [Animesh Sagar](github.com/animeshsagar)
