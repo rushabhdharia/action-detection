@@ -1,8 +1,11 @@
 # Folders
 Labels_MERL_Shopping_Dataset/ 
-Results/  
+Results_MERL_Shopping_Dataset/  
 Videos_MERL_Shopping_Dataset/
+other/
 
+# pickle dumps
+*.pkl
 
 # Environments
 .env
