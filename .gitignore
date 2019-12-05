@@ -3,6 +3,7 @@ Labels_MERL_Shopping_Dataset/
 Results_MERL_Shopping_Dataset/  
 Videos_MERL_Shopping_Dataset/
 other/
+input/
 
 # pickle dumps
 *.pkl
