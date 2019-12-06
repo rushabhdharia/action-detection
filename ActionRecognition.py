@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import numpy as np
@@ -16,7 +16,7 @@ import cv2
 import pickle
 
 
-# In[2]:
+# In[ ]:
 
 
 labels_path = './Labels_MERL_Shopping_Dataset/'
@@ -24,93 +24,125 @@ results_path = './Results_MERL_Shopping_Dataset/DetectedActions/'
 videos_path = './Videos_MERL_Shopping_Dataset/'
 
 
-# In[3]:
+# In[ ]:
 
 
 x_train_path = videos_path+'train/'
 y_train_path = 'train_y.pkl'
 
 
-# In[4]:
+# In[ ]:
 
 
 x_test_path = videos_path + 'test/'
 y_test_path = 'test_y.pkl'
 
 
-# In[5]:
+# In[ ]:
 
 
 x_val_path = videos_path + '/val/'
 y_val_path = 'val_y.pkl'
 
 
-# In[13]:
+# In[ ]:
 
 
-class DataGenerator(Sequence):
+# class DataGenerator(Sequence):
     
-    def __init__(self, x_path, y_path = None, to_fit = True,  seq_len = 30):
-        self.x_path = x_path        
-#         self.batch_size = batch_size
-        self.to_fit = to_fit
-        self.list_X = os.listdir(self.x_path)
-        self.seq_len = seq_len
-        if to_fit:
-            self.y_path = y_path
-            self.dict_Y = self.get_y(y_path)
-    
-    
-    def __len__(self):
-        return len(self.list_X)
+#     def __init__(self, x_path, y_path = None, to_fit = True,  seq_len = 30):
+#         self.x_path = x_path        
+# #         self.batch_size = batch_size
+#         self.to_fit = to_fit
+#         self.list_X = os.listdir(self.x_path)
+#         self.seq_len = seq_len
+#         if to_fit:
+#             self.y_path = y_path
+#             self.dict_Y = self.get_y(y_path)
     
     
-    def __getitem__(self, index):
-        images_folder = self.list_X[index]
-        images_list = sorted(os.listdir(self.x_path + images_folder))
-        all_frames = []
-        for img in images_list:
-            all_frames.append(np.array(cv2.imread(x_train_path+images_folder+'/'+img)))
+#     def __len__(self):
+#         return len(self.list_X)
+    
+    
+#     def __getitem__(self, index):
+#         images_folder = self.list_X[index]
+#         images_list = sorted(os.listdir(self.x_path + images_folder))
+#         all_frames = []
+#         for img in images_list:
+#             all_frames.append(np.array(cv2.imread(x_train_path+images_folder+'/'+img)))
         
-        X = self.stack_frames(all_frames)
+#         X = self.stack_frames(all_frames)
         
-        if self.to_fit:
-            key = images_folder.split('_')[:2]
-            key = '_'.join(key)
-            Y = np.array(self.dict_Y(key))
-            return X, Y[30:]
+#         if self.to_fit:
+#             key = images_folder.split('_')[:2]
+#             key = '_'.join(key)
+#             Y = np.array(self.dict_Y[key])
+#             return X, Y[30:]
         
-        return X
+#         return X
     
-    def get_y(self, path):
-        with open(path, 'rb') as pickle_file:
-            y_dict = pickle.load(pickle_file)
-        return y_dict 
+#     def get_y(self, path):
+#         with open(path, 'rb') as pickle_file:
+#             y_dict = pickle.load(pickle_file)
+#         return y_dict 
     
-    def stack_frames(self, frames):
-        stacked_frames = []
-        for i in range(len(frames) - self.seq_len):
-            end = i + 30
-            stacked_frames.append(frames[i:end])
+#     def stack_frames(self, frames):
+#         stacked_frames = []
+#         for i in range(len(frames) - self.seq_len):
+#             end = i + 30
+#             stacked_frames.append(frames[i:end])
         
-        return np.stack(stacked_frames)
-
-
-# In[14]:
-
-
-training_generator = DataGenerator(x_train_path ,y_path = y_train_path)
-validation_generator = DataGenerator(x_val_path ,y_path = y_val_path)
-testing_generator = DataGenerator(x_test_path ,y_path = y_test_path)
+#         return np.stack(stacked_frames)
 
 
 # In[ ]:
 
 
+# training_generator = DataGenerator(x_train_path ,y_path = y_train_path)
+# validation_generator = DataGenerator(x_val_path ,y_path = y_val_path)
+# testing_generator = DataGenerator(x_test_path ,y_path = y_test_path)
 
 
+# In[ ]:
 
-# In[15]:
+
+class newGen(Sequence):
+    
+    def __init__(self, x_path, folder_name, y_path, to_fit = True, batch_size = 4, seq_len = 30):
+        self.x_path = x_path + folder_name
+        self.folder_name = folder_name
+        self.y_path = y_path
+        self.to_fit = to_fit
+        self.all_frames = self.get_all_frames(self.x_path)
+        self.targets = self.get_Y(y_path, folder_name)
+        self.series_data = TimeseriesGenerator(self.all_frames, self.targets, length = seq_len, batch_size=batch_size)
+        self.len = len(self.series_data)
+    
+    def __len__(self):
+        return self.len
+    
+    def __getitem__(self, index):
+        X, Y = self.series_data[index]
+        return tf.cast(X, tf.float16)
+    
+    def get_all_frames(self, x_path):
+        images_list = sorted(os.listdir(self.x_path))
+        all_frames = []
+        for img in images_list:
+            all_frames.append(cv2.imread(x_path+'/'+img))
+        return np.stack(all_frames)
+    
+    def get_Y(self, y_path, images_folder):
+        with open(y_path, 'rb') as pickle_file:
+            y_dict = pickle.load(pickle_file)
+        
+        key = images_folder.split('_')[:2]
+        key = '_'.join(key)
+        return np.array(y_dict[key])
+
+
+# In[ ]:
 
 
 class MyCL_Model(Model):
@@ -148,7 +180,7 @@ class MyCL_Model(Model):
         return self.classifier(x)
 
 
-# In[16]:
+# In[ ]:
 
 
 model = MyCL_Model()
@@ -158,7 +190,18 @@ model.compile(loss='sparse_categorical_crossentropy', optimizer=tf.keras.optimiz
 # In[ ]:
 
 
-model.fit_generator(generator = training_generator, validation_data=validation_generator)
+# model.fit_generator(generator = training_generator, validation_data=validation_generator)
+
+
+# In[ ]:
+
+
+epochs = 10
+for i in range(epochs):
+    folders = os.listdir(x_train_path)
+    for folder in folders:
+        training_generator = newGen(x_train_path, folder, y_train_path)
+        model.fit_generator(generator = training_generator)
 
 
 # ip shape = (30, 680, 920, 3)
@@ -173,4 +216,10 @@ model.fit_generator(generator = training_generator, validation_data=validation_g
 
 
 model.evaluate_generator(testing_generator)
+
+
+# In[ ]:
+
+
+
 
