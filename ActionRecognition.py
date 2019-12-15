@@ -43,8 +43,8 @@ class newGen(Sequence):
     
     def __getitem__(self, index):
         X, Y = self.series_data[index]
-        return tf.cast(X, tf.float16)
-    
+        return tf.cast(X, tf.float16), Y
+
     def get_all_frames(self, x_path):
         images_list = sorted(os.listdir(self.x_path))
         all_frames = []
