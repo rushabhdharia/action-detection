@@ -9,7 +9,7 @@ from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
 
 class DataGenerator(Sequence):
     
-    def __init__(self, x_path, y_path = None, to_fit = True,  seq_len = 30, batch_size = 4):
+    def __init__(self, x_path, y_path = None, to_fit = True,  seq_len = 30, batch_size = 2):
         self.x_path = x_path        
         self.batch_size = batch_size
         self.to_fit = to_fit
@@ -29,15 +29,15 @@ class DataGenerator(Sequence):
         images_list = sorted(os.listdir(self.x_path + images_folder))
         all_frames = []
         for img in images_list:
-            all_frames.append(np.array(cv2.imread(x_train_path+images_folder+'/'+img)))
+            all_frames.append(np.array(cv2.imread(self.x_path+images_folder+'/'+img)))
         
-        all_frames = np.stack(all_frames)
+        all_frames = np.stack(all_frames).astype(np.float16)
         
         key = images_folder.split('_')[:2]
         key = '_'.join(key)
         Y = np.array(self.dict_Y[key])
         all_frames, targets = self.check(all_frames, Y)
-        series_data = TimeseriesGenerator(all_frames, targets, length = self.seq_len, batch_size=batch_size)
+        series_data = TimeseriesGenerator(all_frames, targets, length = self.seq_len, batch_size=self.batch_size)
         
         return series_data
     

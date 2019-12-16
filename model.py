@@ -1,5 +1,5 @@
 from tensorflow.keras import Model
-from tensorflow.keras.layers import ConvLSTM2D, Attention, Dense, Flatten, MaxPool3D, MaxPool2D, BatchNormalization, LayerNormalization
+from tensorflow.keras.layers import Conv3D, BatchNormalization, MaxPool3D, ConvLSTM2D, MaxPool2D, LayerNormalization, Dense, Flatten 
 
 
 class Encoder(Model):
