@@ -17,6 +17,20 @@ The MERL Shopping Dataset contains 106 videos, each of which is a sequence ~2 mi
   5. **Inspect Shelf**       (look at shelf while not touching and not reaching for the shelf)
 
 
+## Steps to run on Cloud Instance
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+chmod u+x Miniconda3-latest-Linux-x86_64.sh 
+./Miniconda3-latest-Linux-x86_64.sh 
+conda
+cd miniconda3/
+conda list
+source .bashrc
+
+conda create -n tf python=3.7 anaconda
+conda activate tf
+conda install -c anaconda tensorflow-gpu
+conda install -c conda-forge opencv
+
 
 ## References
 
