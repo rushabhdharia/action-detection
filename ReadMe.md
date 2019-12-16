@@ -30,7 +30,7 @@ The MERL Shopping Dataset contains 106 videos, each of which is a sequence ~2 mi
 10. conda install -c conda-forge opencv
 
 ## Steps to run
-1. Download and extract MERL Shopping Dataset
+1. Download and extract MERL Shopping Dataset - http://www.merl.com/demos/merl-shopping-dataset
 2. Create train, val and test folders in Vidoes_MERL_Shopping_Dataset 
 3. Move 1st 60 videos (1_1_crop to 20_3_crop) to the train folder.
 4. Move the next 18 vidoes (21_1_crop to 26_3_crop) to the val folder
