@@ -9,7 +9,7 @@ from tensorflow.keras.preprocessing.sequence import TimeseriesGenerator
 
 class DataGenerator(Sequence):
     
-    def __init__(self, x_path, y_path = None, to_fit = True,  seq_len = 30, batch_size = 2):
+    def __init__(self, x_path, y_path = None, to_fit = True,  seq_len = 30, batch_size = 4):
         self.x_path = x_path        
         self.batch_size = batch_size
         self.to_fit = to_fit
