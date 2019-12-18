@@ -26,13 +26,14 @@ The MERL Shopping Dataset contains 106 videos, each of which is a sequence ~2 mi
 
 
 ## Steps to run
-1. Download and extract MERL Shopping Dataset - http://www.merl.com/demos/merl-shopping-dataset
-2. Create train, val and test folders in Vidoes_MERL_Shopping_Dataset 
-3. Move 1st 60 videos (1_1_crop to 20_3_crop) to the train folder.
-4. Move the next 18 vidoes (21_1_crop to 26_3_crop) to the val folder
-5. Move the remaining 28 videos (27_1_crop to 41_2_crop) to the test folder
-6. Then run the following command on the terminal "./convert_video_to_images.sh Vidoes_MERL_Shopping_Dataset"
-7. Activate the conda environment and run ActionRecognition.py on terminal or ActionRecognition.ipynb to run in the jupyter environment 
+1. Download and extract MERL Shopping Dataset - ftp://ftp.merl.com/pub/tmarks/MERL_Shopping_Dataset/
+2. Download Videos_MERL_Shopping_Dataset.zip and unzip it.
+3. Create train, val and test folders inside the unzipped folder for Videos_MERL_Shopping_Dataset.
+4. Move 1st 60 videos (1_1_crop to 20_3_crop) to the train folder.
+5. Move the next 18 vidoes (21_1_crop to 26_3_crop) to the val folder
+6. Move the remaining 28 videos (27_1_crop to 41_2_crop) to the test folder
+7. Then run the following command on the terminal "./convert_video_to_images.sh Videos_MERL_Shopping_Dataset"
+8. Activate the conda environment and run ActionRecognition.py on terminal or ActionRecognition.ipynb to run in the jupyter environment 
 
 
 ## References
