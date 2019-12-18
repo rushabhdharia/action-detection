@@ -40,7 +40,7 @@ The MERL Shopping Dataset contains 106 videos, each of which is a sequence ~2 mi
 
 ## References
 1. Singh, Bharat, et al. "A multi-stream bi-directional recurrent neural network for fine-grained action detection." Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition. 2016.
-2. Moghaddam, Mohammad Mahdi Kazemi, Ehsan Abbasnejad, and Javen Shi. "Follow the Attention: Combining Partial Pose and Object Motion for Fine-Grained Action Detection." arXiv preprint arXiv:1905.04430 (2019).
+
 
 
 ## Contributors
