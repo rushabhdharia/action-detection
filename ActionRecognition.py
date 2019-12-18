@@ -99,7 +99,7 @@ test_data = DataGenerator(x_test_path ,y_path = y_test_path)
 
 
 test_acc = 0.0
-for i in range(len(test_data))
+for i in range(len(test_data)):
     _, a = model.evaluate_generator(testing_generator)
     test_acc += a
 test_acc/=i
